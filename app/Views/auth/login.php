@@ -1,11 +1,12 @@
-<?php $this->load->view('partials/header'); ?>
-<?php $this->load->view('partials/navbar'); ?>
+<!-- app/Views/auth/login.php -->
+<?= $this->include('partials/header'); ?>
+<?= $this->include('partials/navbar'); ?>
 
 <div class="container mt-5">
     <h2>Logowanie</h2>
     <!-- Komunikat o błędzie -->
-    <?php if ($this->session->flashdata('error')): ?>
-        <div class="alert alert-danger"><?= $this->session->flashdata('error'); ?></div>
+    <?php if (session()->getFlashdata('error')): ?>
+        <div class="alert alert-danger"><?= session()->getFlashdata('error'); ?></div>
     <?php endif; ?>
 
     <!-- Formularz logowania -->
@@ -24,4 +25,4 @@
     <p>Nie masz konta? <a href="<?= site_url('auth/register'); ?>">Zarejestruj się</a></p>
 </div>
 
-<?php $this->load->view('partials/footer'); ?>
+<?= $this->include('partials/footer'); ?>

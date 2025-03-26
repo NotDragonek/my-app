@@ -3,9 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
-use CodeIgniter\Controller;
 
-class AuthController extends Controller
+class AuchController extends BaseController
 {
     protected $userModel;
 
@@ -56,7 +55,7 @@ class AuthController extends Controller
         $data = [
             'username' => $this->request->getPost('username'),
             'email'    => $this->request->getPost('email'),
-            'password' => $this->request->getPost('password'),
+            'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
         ];
 
         if ($this->userModel->register($data)) {

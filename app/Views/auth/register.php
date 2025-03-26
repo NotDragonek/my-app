@@ -1,11 +1,11 @@
-<?php $this->load->view('partials/header'); ?>
-<?php $this->load->view('partials/navbar'); ?>
+<?= $this->include('partials/header'); ?>
+<?= $this->include('partials/navbar'); ?>
 
 <div class="container mt-5">
     <h2>Rejestracja</h2>
     <!-- Komunikat o błędzie -->
-    <?php if ($this->session->flashdata('error')): ?>
-        <div class="alert alert-danger"><?= $this->session->flashdata('error'); ?></div>
+    <?php if (session()->getFlashdata('error')): ?>
+        <div class="alert alert-danger"><?= session()->getFlashdata('error'); ?></div>
     <?php endif; ?>
 
     <!-- Formularz rejestracji -->
@@ -34,10 +34,22 @@
             <label for="adres">Adres</label>
             <input type="text" class="form-control" id="adres" name="adres" required>
         </div>
+        <div class="form-group">
+            <label for="imie">Imię</label>
+            <input type="text" class="form-control" id="imie" name="imie" required>
+        </div>
+        <div class="form-group">
+            <label for="nazwisko">Nazwisko</label>
+            <input type="text" class="form-control" id="nazwisko" name="nazwisko" required>
+        </div>
+        <div class="form-group">
+            <label for="adres">Adres</label>
+            <input type="text" class="form-control" id="adres" name="adres" required>
+        </div>
         <button type="submit" class="btn btn-primary">Zarejestruj się</button>
     </form>
 
     <p>Masz już konto? <a href="<?= site_url('auth/login'); ?>">Zaloguj się</a></p>
 </div>
 
-<?php $this->load->view('partials/footer'); ?>
+<?= $this->include('partials/footer'); ?>

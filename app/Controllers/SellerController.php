@@ -3,9 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\ProductModel;
-use CodeIgniter\Controller;
 
-class SellerController extends Controller
+class SellerController extends BaseController
 {
     protected $productModel;
 
@@ -14,84 +13,65 @@ class SellerController extends Controller
         $this->productModel = new ProductModel();
     }
 
+    // Dashboard sprzedawcy
     public function index()
     {
-        // Pobierz produkty sprzedawcy
         $products = $this->productModel->where('seller_id', session()->get('user_id'))->findAll();
-        return view('seller/index', ['products' => $products]);
+
+        return view('seller/dashboard', ['products' => $products]);
     }
 
+    // Formularz dodawania produktu
     public function add_product()
     {
         return view('seller/add_product');
     }
 
-    public function create_product()
+    // Przetwarzanie dodawania produktu
+    public function save_product()
     {
-        // Walidacja danych przed zapisaniem
-        $validation = \Config\Services::validation();
-
-        if (!$this->validate([
-            'name' => 'required|min_length[3]',
-            'price' => 'required|numeric',
-        ])) {
-            return redirect()->back()->withInput()->with('error', 'Błąd w formularzu.');
-        }
-
-        // Zapisz produkt do bazy
         $data = [
-            'name' => $this->request->getPost('name'),
-            'price' => $this->request->getPost('price'),
+            'name'        => $this->request->getPost('name'),
             'description' => $this->request->getPost('description'),
-            'category_id' => $this->request->getPost('category_id'),
-            'seller_id' => session()->get('user_id'),
+            'price'       => $this->request->getPost('price'),
+            'category_id' => $this->request->getPost('category'),
+            'seller_id'   => session()->get('user_id'), // Pobranie ID zalogowanego sprzedawcy
         ];
 
-        if ($this->productModel->insert($data)) {
-            return redirect()->to('/seller')->with('success', 'Produkt dodany.');
-        } else {
-            return redirect()->to('/seller/add_product')->with('error', 'Błąd przy dodawaniu produktu.');
-        }
+        $this->productModel->insert($data);
+        return redirect()->to('/seller')->with('success', 'Produkt dodany!');
     }
 
+    // Edycja produktu
     public function edit_product($id)
     {
         $product = $this->productModel->find($id);
+
+        if (!$product || $product['seller_id'] != session()->get('user_id')) {
+            return redirect()->to('/seller')->with('error', 'Brak dostępu.');
+        }
+
         return view('seller/edit_product', ['product' => $product]);
     }
 
+    // Zapisanie edytowanego produktu
     public function update_product($id)
     {
-        // Walidacja danych przed zapisaniem
-        $validation = \Config\Services::validation();
-
-        if (!$this->validate([
-            'name' => 'required|min_length[3]',
-            'price' => 'required|numeric',
-        ])) {
-            return redirect()->back()->withInput()->with('error', 'Błąd w formularzu.');
-        }
-
-        // Zaktualizuj produkt
         $data = [
-            'name' => $this->request->getPost('name'),
-            'price' => $this->request->getPost('price'),
+            'name'        => $this->request->getPost('name'),
             'description' => $this->request->getPost('description'),
-            'category_id' => $this->request->getPost('category_id'),
+            'price'       => $this->request->getPost('price'),
+            'category_id' => $this->request->getPost('category'),
         ];
 
-        if ($this->productModel->update($id, $data)) {
-            return redirect()->to('/seller')->with('success', 'Produkt zaktualizowany.');
-        } else {
-            return redirect()->to('/seller/edit_product/' . $id)->with('error', 'Błąd przy edytowaniu produktu.');
-        }
+        $this->productModel->update($id, $data);
+        return redirect()->to('/seller')->with('success', 'Produkt zaktualizowany!');
     }
 
+    // Usunięcie produktu
     public function delete_product($id)
     {
-        if ($this->productModel->delete($id)) {
-            return redirect()->to('/seller')->with('success', 'Produkt usunięty.');
-        }
-        return redirect()->to('/seller')->with('error', 'Nie udało się usunąć produktu.');
+        $this->productModel->delete($id);
+        return redirect()->to('/seller')->with('success', 'Produkt usunięty!');
     }
 }

@@ -2,6 +2,8 @@
 
 use CodeIgniter\Model;
 
+// Remove this file if not used, as it duplicates functionality in AuchController.
+
 class Auth extends Model {
 
     public function __construct() {

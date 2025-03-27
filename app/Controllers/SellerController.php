@@ -67,10 +67,10 @@ class SellerController extends BaseController
     public function update_product($id)
     {
         $data = [
-            'name'        => $this->request->getPost('name'),
-            'description' => $this->request->getPost('description'),
-            'price'       => $this->request->getPost('price'),
-            'category_id' => $this->request->getPost('category'),
+            'nazwa'        => $this->request->getPost('name'),
+            'opis' => $this->request->getPost('description'),
+            'cena'       => $this->request->getPost('price'),
+            'kategoria' => $this->request->getPost('category'),
         ];
 
         $this->productModel->update($id, $data);

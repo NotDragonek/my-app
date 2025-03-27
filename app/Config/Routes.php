@@ -9,10 +9,12 @@ use CodeIgniter\Router\RouteCollection;
 // Admin routes
 $routes->get('admin/dashboard', 'AdminController::dashboard');
 $routes->get('admin/products', 'AdminController::products');
-$routes->get('admin/categories', 'AdminController::categories');
-$routes->get('admin/delete_user/(:num)', 'AdminController::delete_user/$1');
+$routes->get('admin/users', 'AdminController::users');
 $routes->get('admin/delete_product/(:num)', 'AdminController::delete_product/$1');
-$routes->get('admin/delete_category/(:num)', 'AdminController::delete_category/$1');
+$routes->get('admin/delete_user/(:num)', 'AdminController::delete_user/$1');
+$routes->get('admin/edit_product/(:num)', 'AdminController::edit_product/$1');
+$routes->post('admin/update_product/(:num)', 'AdminController::update_product/$1');
+
 
 // Seller routes
 $routes->get('/seller', 'SellerController::index');  

@@ -2,64 +2,84 @@
 
 namespace App\Controllers;
 
-use App\Models\UserModel;
 use App\Models\ProductModel;
-use App\Models\CategoryModel;
-use CodeIgniter\Controller;
+use App\Models\UserModel;
 
-class AdminController extends Controller
+class AdminController extends BaseController
 {
-    protected $userModel;
     protected $productModel;
-    protected $categoryModel;
+    protected $userModel;
 
     public function __construct()
     {
-        $this->userModel = new UserModel();
         $this->productModel = new ProductModel();
-        $this->categoryModel = new CategoryModel();
+        $this->userModel = new UserModel();
     }
 
+    // Dashboard administratora
     public function dashboard()
     {
         return view('admin/dashboard');
     }
 
+    // Zarządzanie produktami
     public function products()
     {
-        // Pobierz wszystkie produkty
         $products = $this->productModel->findAll();
         return view('admin/products', ['products' => $products]);
     }
 
-    public function categories()
+    public function edit_product($id)
     {
-        // Pobierz wszystkie kategorie
-        $categories = $this->categoryModel->findAll();
-        return view('admin/categories', ['categories' => $categories]);
-    }
-
-    public function delete_user($id)
-    {
-        if ($this->userModel->delete($id)) {
-            return redirect()->to('/admin/users')->with('success', 'Użytkownik usunięty.');
+        // Pobierz produkt do edycji
+        $product = $this->productModel->find($id);
+        
+        // Jeśli produkt nie istnieje, przekieruj z błędem
+        if (!$product) {
+            return redirect()->to('/admin/products')->with('error', 'Produkt nie istnieje');
         }
-        return redirect()->to('/admin/users')->with('error', 'Nie udało się usunąć użytkownika.');
+
+        // Wyświetlenie formularza edycji produktu
+        return view('admin/edit_product', ['product' => $product]);
     }
 
+    // Zapisz zmiany w produkcie
+    public function update_product($id)
+    {
+        // Walidacja danych
+        $data = [
+            'nazwa' => $this->request->getPost('name'),
+            'opis' => $this->request->getPost('description'),
+            'cena' => $this->request->getPost('price'),
+            'kategoria' => $this->request->getPost('category'),
+            'ilosc' => $this->request->getPost('quantity'),
+        ];
+
+        // Aktualizacja produktu
+        $this->productModel->update($id, $data);
+
+        // Przekierowanie z komunikatem o sukcesie
+        return redirect()->to('/admin/products')->with('success', 'Produkt zaktualizowany!');
+    }
+
+    // Zarządzanie użytkownikami
+    public function users()
+    {
+        $users = $this->userModel->findAll();
+        return view('admin/users', ['users' => $users]);
+    }
+
+    // Usuwanie produktu
     public function delete_product($id)
     {
-        if ($this->productModel->delete($id)) {
-            return redirect()->to('/admin/products')->with('success', 'Produkt usunięty.');
-        }
-        return redirect()->to('/admin/products')->with('error', 'Nie udało się usunąć produktu.');
+        $this->productModel->delete($id);
+        return redirect()->to('/admin/products')->with('success', 'Produkt usunięty!');
     }
 
-    public function delete_category($id)
+    // Usuwanie użytkownika
+    public function delete_user($id)
     {
-        if ($this->categoryModel->delete($id)) {
-            return redirect()->to('/admin/categories')->with('success', 'Kategoria usunięta.');
-        }
-        return redirect()->to('/admin/categories')->with('error', 'Nie udało się usunąć kategorii.');
+        $this->userModel->delete($id);
+        return redirect()->to('/admin/users')->with('success', 'Użytkownik usunięty!');
     }
 }

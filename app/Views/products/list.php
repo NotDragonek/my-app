@@ -31,8 +31,7 @@
                     <td><?= number_format($product['cena'], 2); ?> PLN</td>
                     <td><?= $product['kategoria']; ?></td>
                     <td>
-                        <a href="<?= site_url('product/edit/'.$product['id']); ?>" class="btn btn-warning">Edytuj</a>
-                        <a href="<?= site_url('product/delete/'.$product['id']); ?>" class="btn btn-danger">Usuń</a>
+                        <a href="<?= site_url('product/edit/'.$product['id']); ?>" class="btn btn-info">Dodaj do koszyka</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

@@ -18,7 +18,7 @@ class Home extends BaseController
     public function index()
     {
         // Pobranie przykładowych produktów
-        $products = $this->productModel->findAll(); // Możesz dodać ograniczenie na liczbę produktów, np. limit 4
+        $products = $this->productModel->findAll(20); // Możesz dodać ograniczenie na liczbę produktów, np. limit 4
 
         return view('home/index', ['products' => $products]);
     }

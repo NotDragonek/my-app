@@ -16,7 +16,14 @@ class SellerController extends BaseController
     // Dashboard sprzedawcy
     public function index()
     {
-        $products = $this->productModel->where('seller_id', session()->get('user_id'))->findAll();
+        $session = session();
+        // Debug session data
+
+        if ($session->get('rola') === 'seller') {
+            $products = $this->productModel->where('seller_id', $session->get('user_id'))->findAll();
+        } else {
+            $products = []; // Jeśli użytkownik nie jest sellerem, zwróć pustą tablicę
+        }
 
         return view('seller/dashboard', ['products' => $products]);
     }
@@ -31,10 +38,12 @@ class SellerController extends BaseController
     public function save_product()
     {
         $data = [
-            'name'        => $this->request->getPost('name'),
-            'description' => $this->request->getPost('description'),
-            'price'       => $this->request->getPost('price'),
-            'category_id' => $this->request->getPost('category'),
+            'nazwa'        => $this->request->getPost('name'),
+            'opis' => $this->request->getPost('description'),
+            'cena'       => $this->request->getPost('price'),
+            'kategoria'    => $this->request->getPost('category'),
+            'ilosc'    => $this->request->getPost('quantity'),
+            'data_dodania' => date('Y-m-d H:i:s'),
             'seller_id'   => session()->get('user_id'), // Pobranie ID zalogowanego sprzedawcy
         ];
 

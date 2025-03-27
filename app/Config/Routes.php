@@ -26,9 +26,11 @@ $routes->get('/seller/delete_product/(:num)', 'SellerController::delete_product/
 // Auth routes
 $routes->get('/auth/login', 'AuchController::login');
 $routes->get('/auth/register', 'AuchController::register');
+$routes->post('/auth/process_register', 'AuchController::process_register');
+$routes->post('/auth/process_login', 'AuchController::process_login');
 $routes->get('/auth/logout', 'AuchController::logout');
 
-// Category routes
+// Category routes 
 $routes->get('/category', 'CategoryController::index');
 $routes->get('/category/view/(:num)', 'CategoryController::view/$1');
 

@@ -13,16 +13,18 @@
             <tr>
                 <th>Nazwa</th>
                 <th>Opis</th>
+                <th>Ilość</th>
                 <th>Cena</th>
-                <th>Akcje</th>
+                <th>Opcje</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($products as $product): ?>
                 <tr>
-                    <td><?= esc($product['name']); ?></td>
-                    <td><?= esc($product['description']); ?></td>
-                    <td><?= number_format($product['price'], 2); ?> PLN</td>
+                    <td><?= esc($product['nazwa']); ?></td>
+                    <td><?= esc($product['opis']); ?></td>
+                    <td><?= esc($product['ilosc']); ?></td>
+                    <td><?= number_format($product['cena'], 2); ?> PLN</td>
                     <td>
                         <a href="<?= site_url('seller/edit_product/' . $product['id']); ?>" class="btn btn-primary btn-sm">Edytuj</a>
                         <a href="<?= site_url('seller/delete_product/' . $product['id']); ?>" class="btn btn-danger btn-sm">Usuń</a>
@@ -34,3 +36,11 @@
 </div>
 
 <?= $this->include('partials/footer'); ?>
+<?php 
+    echo '<pre>';
+    print_r($products);
+    $session = session();
+    print_r($session->get());
+    echo '</pre>';
+    
+?>

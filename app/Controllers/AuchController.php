@@ -33,6 +33,9 @@ class AuchController extends BaseController
         if ($user) {
             session()->set('user_id', $user['id']);
             session()->set('username', $user['username']);
+            session()->set('isLogged', true);
+            session()->set('rola', $user['rola']);
+            dd(session()->get());
             return redirect()->to('/');
         }
 
@@ -42,12 +45,11 @@ class AuchController extends BaseController
     public function process_register()
     {
         // Walidacja
-        $validation = \Config\Services::validation();
-
         if (!$this->validate([
             'username' => 'required|min_length[3]',
             'email'    => 'required|valid_email',
             'password' => 'required|min_length[6]',
+            'rola'     => 'required|in_list[user,seller,admin]',
         ])) {
             return redirect()->back()->withInput()->with('error', 'Błąd w formularzu rejestracyjnym.');
         }
@@ -56,9 +58,13 @@ class AuchController extends BaseController
             'username' => $this->request->getPost('username'),
             'email'    => $this->request->getPost('email'),
             'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+            'rola'     => $this->request->getPost('rola'),
+            'imie'     => $this->request->getPost('imie'),
+            'nazwisko' => $this->request->getPost('nazwisko'),
+            'adres'    => $this->request->getPost('adres'),
         ];
 
-        if ($this->userModel->register($data)) {
+        if ($this->userModel->insert($data)) {
             return redirect()->to('/auth/login')->with('success', 'Rejestracja zakończona sukcesem.');
         }
 

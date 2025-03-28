@@ -39,6 +39,7 @@ $routes->get('/category/view/(:num)', 'CategoryController::view/$1');
 // Product routes
 $routes->get('/product/list', 'ProductController::index');
 $routes->get('/product/details/(:num)', 'ProductController::details/$1');
+$routes->get('/product/add', 'ProductController::add');
 
 
 // Cart routes

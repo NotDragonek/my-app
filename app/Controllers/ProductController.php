@@ -24,7 +24,7 @@ class ProductController extends BaseController
     // Wyświetlenie formularza dodawania produktu
     public function add()
     {
-        return view('products/add');
+        return view('seller/add_product');
     }
 
     // Zapisanie nowego produktu

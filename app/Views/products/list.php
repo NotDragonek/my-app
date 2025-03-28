@@ -8,9 +8,9 @@
     <?php if (session()->getFlashdata('error')): ?>
         <div class="alert alert-danger"><?= session()->getFlashdata('error'); ?></div>
     <?php endif; ?>
-        
+    <?php if(session()->get('rola') == 'seller'): ?>
     <a href="<?= base_url('product/add'); ?>" class="btn btn-primary mb-3">Dodaj nowy produkt</a>
-
+        <?php endif; ?>
     <table class="table table-bordered">
         <thead>
             <tr>

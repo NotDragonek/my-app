@@ -71,6 +71,7 @@ class SellerController extends BaseController
             'opis' => $this->request->getPost('description'),
             'cena'       => $this->request->getPost('price'),
             'kategoria' => $this->request->getPost('category'),
+            'ilosc'    => $this->request->getPost('quantity'),
         ];
 
         $this->productModel->update($id, $data);

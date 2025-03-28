@@ -42,9 +42,12 @@ $routes->get('/product/details/(:num)', 'ProductController::details/$1');
 
 
 // Cart routes
-$routes->get('/cart', 'CartController::index');
-$routes->get('/cart/add/(:num)', 'CartController::add/$1');
-$routes->get('/cart/remove/(:num)', 'CartController::remove/$1');
+$routes->post('cart/add/(:num)', 'CartController::add_to_cart/$1');
+$routes->get('cart/view', 'CartController::view_cart');
+$routes->get('cart/remove_item/(:num)', 'CartController::remove_item/$1');
+$routes->get('cart/purchase', 'CartController::purchase');
+$routes->get('cart/clear_cart', 'CartController::clear_cart');
+
 
 // Default controller (home page)
 $routes->get('/', 'Home::index');

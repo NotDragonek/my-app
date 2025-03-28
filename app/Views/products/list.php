@@ -8,30 +8,38 @@
     <?php if (session()->getFlashdata('error')): ?>
         <div class="alert alert-danger"><?= session()->getFlashdata('error'); ?></div>
     <?php endif; ?>
-
-    <a href="<?= site_url('product/add'); ?>" class="btn btn-primary mb-3">Dodaj nowy produkt</a>
+        
+    <a href="<?= base_url('product/add'); ?>" class="btn btn-primary mb-3">Dodaj nowy produkt</a>
 
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>ID</th>
+                <th>Lp</th>
                 <th>Nazwa</th>
                 <th>Opis</th>
                 <th>Cena</th>
+                <th>Ilość</th>
                 <th>Kategoria</th>
                 <th>Akcje</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="text-center">
+            <?php $lp = 0 ?>
             <?php foreach ($products as $product): ?>
+                <?php $lp++ ?>
                 <tr>
-                    <td><?= $product['id']; ?></td>
+                    <td><?= $lp ?></td>
                     <td><?= $product['nazwa']; ?></td>
                     <td><?= $product['opis']; ?></td>
                     <td><?= number_format($product['cena'], 2); ?> PLN</td>
+                    <td><?= $product['ilosc']; ?></td>
                     <td><?= $product['kategoria']; ?></td>
                     <td>
-                        <a href="<?= site_url('product/edit/'.$product['id']); ?>" class="btn btn-info">Dodaj do koszyka</a>
+                        <!-- Formularz do dodania produktu do koszyka -->
+                        <form method="POST" action="<?= base_url('cart/add/' . $product['id']); ?>">
+                            <input type="number" name="quantity" value="1" min="1" class="form-control mb-2" style="width: 80px;">
+                            <button type="submit" class="btn btn-success">Dodaj do koszyka</button>
+                        </form>
                     </td>
                 </tr>
             <?php endforeach; ?>

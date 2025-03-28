@@ -1,5 +1,6 @@
 <?= $this->include('partials/header'); ?>
 <?= $this->include('partials/navbar'); ?>
+
 <div class="container mt-5 mb-3">
         <h1>Użytkownicy</h1>
         <a href="<?= base_url('admin/dashboard'); ?>" class="btn btn-primary mb-3">Powrót do dashboardu</a>
@@ -31,4 +32,5 @@
             </tbody>
         </table>
     </div>
+
 <?= $this->include('partials/footer'); ?>

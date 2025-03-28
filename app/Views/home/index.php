@@ -11,7 +11,13 @@
                         <h5 class="card-title"><?= esc($product['nazwa']); ?></h5>
                         <p class="card-text"><?= esc($product['opis']); ?></p>
                         <p class="card-text"><strong><?= esc($product['cena']); ?> zł</strong></p>
-                        <a href="<?= site_url('product/details/' . $product['id']); ?>" class="btn btn-primary">Dodaj do koszyka</a>
+                        <form method="POST" action="<?= site_url('cart/add/' . $product['id']); ?>">
+                            <?php if (session()->get('isLogged')): ?>
+                                <button type="submit" class="btn btn-primary">Dodaj do koszyka</button>
+                            <?php else: ?>
+                                <a href="<?= base_url('auth/login'); ?>" class="btn btn-primary">Zaloguj się, aby dodać do koszyka</a>
+                            <?php endif; ?>
+                        </form>
                     </div>
                 </div>
             </div>

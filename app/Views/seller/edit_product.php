@@ -13,6 +13,14 @@
             <textarea class="form-control" id="description" name="description" required><?= esc($product['opis']); ?></textarea>
         </div>
         <div class="mb-3">
+            <label for="category" class="form-label">Kategoria</label>
+            <textarea class="form-control" id="category" name="category" required><?= esc($product['kategoria']); ?></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="quantity" class="form-label">ilosc</label>
+            <input type="text" class="form-control" id="quantity" name="quantity" value="<?= esc($product['ilosc']); ?>" required>
+        </div>
+        <div class="mb-3">
             <label for="price" class="form-label">Cena</label>
             <input type="number" class="form-control" id="price" name="price" value="<?= esc($product['cena']); ?>" step="0.01" required>
         </div>

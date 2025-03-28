@@ -1,48 +1,43 @@
 <?= $this->include('partials/header'); ?>
 <?= $this->include('partials/navbar'); ?>
 
-<div class="container mt-5">
+<div class="container mt-5 mb-3">
     <h2>Twój koszyk</h2>
 
-    <!-- Sprawdzenie, czy koszyk jest pusty -->
-    <?php if (empty($cartItems)): ?>
-        <div class="alert alert-info">Twój koszyk jest pusty.</div>
-    <?php else: ?>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Produkt</th>
-                    <th>Cena</th>
-                    <th>Ilość</th>
-                    <th>Razem</th>
-                    <th>Akcje</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($cartItems as $item): ?>
-                    <tr>
-                        <td><?= esc($item['name']); ?></td>
-                        <td><?= number_to_currency($item['price'], 'PLN'); ?></td>
-                        <td>
-                            <form method="POST" action="<?= site_url('cart/update/' . $item['id']); ?>">
-                                <input type="number" name="quantity" value="<?= $item['quantity']; ?>" min="1" class="form-control" style="width: 60px;">
-                                <button type="submit" class="btn btn-sm btn-primary mt-2">Zaktualizuj</button>
-                            </form>
-                        </td>
-                        <td><?= number_to_currency($item['price'] * $item['quantity'], 'PLN'); ?></td>
-                        <td>
-                            <a href="<?= site_url('cart/remove/' . $item['id']); ?>" class="btn btn-sm btn-danger">Usuń</a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+    <?php if (!empty(session()->getFlashdata('success'))) : ?>
+        <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
+    <?php endif; ?>
 
-        <!-- Podsumowanie -->
-        <div class="text-right">
-            <h4>Całkowita kwota: <?= number_to_currency($totalPrice, 'PLN'); ?></h4>
-            <a href="<?= site_url('checkout'); ?>" class="btn btn-success">Przejdź do kasy</a>
-        </div>
+    <?php if (!empty(session()->getFlashdata('error'))) : ?>
+        <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
+    <?php endif; ?>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Produkt</th>
+                <th>Cena</th>
+                <th>Ilość</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($products as $product) : ?>
+                <tr>
+                    <td><?= esc($product['nazwa']); ?></td>
+                    <td><?= esc($product['cena']); ?> PLN</td>
+                    <td><?= esc($product['quantity_in_cart']); ?></td>
+                    <td>
+                        <a href="<?= base_url('cart/remove_item/' . $product['id']); ?>" class="btn btn-danger">Usuń</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <?php if (!empty($products)) : ?>
+        <a href="<?= base_url('cart/purchase'); ?>" class="btn btn-success">Kup teraz</a>
+        <a href="<?= base_url('cart/clear_cart'); ?>" class="btn btn-warning">Wyczysc koszyk</a>
     <?php endif; ?>
 </div>
 

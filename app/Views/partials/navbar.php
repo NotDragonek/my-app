@@ -9,7 +9,7 @@
         <a class="nav-link" href="<?= base_url('product/list'); ?>">Produkty</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('cart'); ?>">Koszyk</a>
+        <a class="nav-link" href="<?= base_url('cart/view'); ?>">Koszyk</a>
       </li>
 
       <!-- Jeśli użytkownik jest zalogowany -->

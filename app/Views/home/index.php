@@ -2,7 +2,7 @@
 <?= $this->include('partials/navbar'); ?>
 
 <div class="container mt-5">
-    <h2>Nasze produkty</h2>
+    <h2>Przykładowe produkty</h2>
     <div class="row">
         <?php foreach ($products as $product): ?>
             <div class="col-md-3">

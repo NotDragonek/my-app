@@ -2,7 +2,7 @@
 <?= $this->include('partials/navbar'); ?>
 
 <div class="container mt-5 mb-3">
-    <h2>Twój koszyk</h2>
+
 
     <?php if (!empty(session()->getFlashdata('success'))) : ?>
         <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
@@ -12,7 +12,11 @@
         <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
     <?php endif; ?>
 
-    <table class="table">
+        <?php if (empty($products)) : ?>
+            <h1>Twój koszyk jest pusty dodaj coś !</h1>
+        <?php else : ?>
+            <h2 class="mb-3">Twój koszyk</h2>
+            <table class="table">
         <thead>
             <tr>
                 <th>Produkt</th>
@@ -39,6 +43,7 @@
         <a href="<?= base_url('cart/purchase'); ?>" class="btn btn-success">Kup teraz</a>
         <a href="<?= base_url('cart/clear_cart'); ?>" class="btn btn-warning">Wyczysc koszyk</a>
     <?php endif; ?>
+        <?php endif; ?>
 </div>
 
 <?= $this->include('partials/footer'); ?>
